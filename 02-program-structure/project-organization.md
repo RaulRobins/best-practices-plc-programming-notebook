@@ -4,7 +4,7 @@ Proper project organization is the foundation of maintainable, scalable, and col
 
 This document outlines standardized approaches for organizing PLC projects across different platforms, focusing on creating consistent structures that can be easily understood by programmers, maintenance technicians, and engineers throughout the project lifecycle.
 
-## Key Benefits
+## 🔑 Key Benefits
 
 - Improved Maintainability: Clear structure makes it easier to locate and modify code components.
 - Enhanced Collaboration: Standardized organization enables seamless teamwork.
@@ -22,4 +22,54 @@ This document outlines standardized approaches for organizing PLC projects acros
 | **Device drivers, motion blocks, actuators** | **FB in SCL**                   | Devices like valves, cylinders, motors, and axes often need memory for state tracking (e.g., “command active,” “done,” “faulted”). Implement these in **Function Blocks** written in **SCL** for reusability and clarity. Each instance keeps its own state, and the logic can be tested independently.                                  |
 | **Simple combinational logic**               | **FC in LAD**                   | Use **Function Calls** in Ladder when logic is stateless (pure input → output). Great for small evaluations such as “if all safety doors are closed and e-stop reset, set SystemReady.” Keeps readability and prevents unnecessary DB overhead.                                                                                          |
 
+## Variable Naming Convetions
 
+### Variables
+
+Use **lowerCamelCase** with type prefixes:
+
+| Type                | Prefix | Example                      |
+| ------------------- | ------ | ---------------------------- |
+| BOOL                | b      | `bStartReq`, `bPermissiveOK` |
+| INT/DINT            | i / di | `iCounter`, `diPartID`       |
+| REAL                | r      | `rTorqueNm`, `rTempC`        |
+| TIME                | t      | `tPulse100ms`                |
+| STRING              | s      | `sSerial`                    |
+| DATE_AND_TIME       | dt     | `dtStamp`                    |
+| ARRAY               | arr    | `arrTorque[1..10]`           |
+| STRUCT/UDT instance | st     | `stAxis1`, `stPerms`         |
+
+- Constants or enums: `cMaxTorqueNm`, `EState`.
+- Add **units** as suffix: `rSpeedRpm`, `tDelayMs`.
+
+> Consistency > style. Choose one convention and keep it across all PLCs.
+
+### 🧩 Blocks / Data Types
+
+Use **PascalCase** with functional prefixes:
+
+| Element          | Prefix | Example                             |
+| ---------------- | ------ | ----------------------------------- |
+| Function Block   | FB\_   | `FB_AxisControl`, `FB_ConveyorMain` |
+| Function         | FC\_   | `FC_PermissiveOK`, `FC_ScaleAI`     |
+| Data Block       | DB\_   | `DB_GlobalCfg`, `DB_IOMapping`      |
+| User Data Type   | UDT\_  | `UDT_StationCmd`, `UDT_Permissives` |
+| Sequential Chart | SFC\_  | `SFC_MainSequence`                  |
+
+### When To Use FC VS FB
+
+#### FC (Function Block)
+
+- Requires **memory/state** (timers, latches, previous values).
+- Used per **machine, axis, station**, or subsystem.
+- Each FB has its own instance DB.
+
+#### FB (Function Block)
+
+- Requires **memoty/state** (timers, latches, previous values).
+- Used per **machine, axis, station**, or subsystem.
+- Each FB its own instance DB.
+
+#### Instance DB Naming
+
+> DB*[Equipment]*[Function]\_[Instance]
