@@ -73,3 +73,79 @@ Use **PascalCase** with functional prefixes:
 #### Instance DB Naming
 
 > DB*[Equipment]*[Function]\_[Instance]
+
+## 📂 Folder / block organization
+
+```shell
+
+ORGANIZATION BLOCKS (top-level)
+ ├─ OB100 (startup)   - call FC_SelfTest, load defaults, init FBs
+ ├─ OB1   (cyclic)    - call FB_SeqManager, FB_Logger, HMI comm
+ ├─ OB35  (hardware interrupt / fast IO) - optional
+ └─ FC_MainProgram
+
+01_Sequence
+ ├─ FB_ProductionSequence (FB)
+ ├─ FB_ModeSequence (FB)
+ ├─ FB_InitSequence (FB)
+ └─ DB_SeqInstance (DB)
+
+02_Defaults
+ ├─ FC_Defaults (FC)
+ └─ DB_Defaults (DB)
+
+03_Functions
+ ├─ Fastening
+ │   ├─ FB_Fastening (FB)
+ │   └─ DB_Fastening_Instance (DB)
+ ├─ Riveting
+ │   ├─ FB_Riveting (FB)
+ │   └─ DB_Riveting_Instance (DB)
+ ├─ Scanning
+ │   ├─ FB_Scanning (FB)
+ │   └─ DB_Scanning_Instance (DB)
+ ├─ Printing
+ │   ├─ FB_Printing (FB)
+ │   └─ DB_Printing_Instance (DB)
+ └─ Utilities
+     ├─ FC_IO_Mapping (FC)
+     └─ FC_TimerUtils (FC)
+
+04_HMI
+ ├─ FB_Alarms (FB)           - DB_FB_Alarms_Inst
+ ├─ FB_Messages (FB)         - DB_FB_Messages_Inst
+ ├─ FB_SeqStatus (FB)        - DB_FB_SeqStatus_Inst
+ ├─ DB_HMI (DB)
+ └─ FC_HMI_Comm (FC)
+
+05_Counters
+ ├─ FB_ProductionCounter
+ └─ FB_DateTimeAndShifts
+
+06_HMI_Remote
+ ├─ FB_Alarms_Remote (FB)    - DB_FB_Alarms_Remote_Inst
+ ├─ FB_Messages_Remote (FB)  - DB_FB_Messages_Remote_Inst
+ ├─ FB_SeqStatus_Remote (FB) - DB_FB_SeqStatus_Remote_Inst
+ ├─ DB_HMI_Remote (DB)
+ └─ FC_HMI_Remote_Comm (FC)
+
+07_Recipes
+ ├─ DB_RecipeCurrent (DB)
+ ├─ DB_RecipeEdit (DB)
+ ├─ DB_RecipeList (DB)
+ └─ FB_RecipeManager (FB)   - DB_FB_RecipeManager_Inst
+
+08_Diagnostics
+ ├─ FB_Logger (FB)           - DB_FB_Logger_Inst
+ ├─ FC_SelfTest (FC)
+ ├─ FC_ErrorHandler (FC)
+ └─ DB_Log (DB)
+
+09_Libraries
+ ├─
+ ├─
+ ├─
+ └─
+´´´
+
+```
