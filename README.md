@@ -4,7 +4,8 @@
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Status](https://img.shields.io/badge/status-active-success.svg)
 ![Siemens](https://img.shields.io/badge/Siemens-TIA%20Portal-blue?logo=siemens)
-![Rockwell](https://img.shields.io/badge/Rockwell-Studio%205000-red?logo=rockwellautomation)
+![Rockwell](https://img.shields.io/badge/Rockwell-Studio%205000-red?logo=rockwellautomation)  
+![CODESYS](https://img.shields.io/badge/CODESYS-3.5.18+-orange?logo=codesys&logoColor=white)
 
 ## 📖 Description
 
